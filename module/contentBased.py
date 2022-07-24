@@ -1,7 +1,5 @@
 import numpy as np
-import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-
 
 def topKItems(itemId, topK, corrMat, mapName):
     topItemsNums = corrMat[itemId,:].argsort()[-topK:][::-1]
@@ -14,7 +12,7 @@ def topKItems(itemId, topK, corrMat, mapName):
             pass
         
     return topItems
-
+    
 def content_based(item_df, rating_df, searched_asin):
     topK = 5
     ratedItems = item_df.loc[item_df['asin'].isin(rating_df['asin'])].copy()
@@ -47,4 +45,11 @@ def content_based(item_df, rating_df, searched_asin):
     except:
         similarItems = 'no product'
 
-    return str(similarItems)
+    similar_items_dict = {}
+    if similarItems == 'no product':
+        return similarItems
+    else:
+        for idx, asin in enumerate(similarItems):
+            similar_items_dict[idx] =  asin
+
+    return similar_items_dict
